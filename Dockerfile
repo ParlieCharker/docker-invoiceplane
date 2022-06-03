@@ -1,8 +1,8 @@
-FROM ubuntu:bionic-20190612
+FROM ubuntu:latest
 LABEL maintainer="sameer@damagehead.com"
 
 ENV PHP_VERSION=7.2 \
-    INVOICEPLANE_VERSION=1.5.9 \
+    INVOICEPLANE_VERSION=1.5.11 \
     INVOICEPLANE_USER=www-data \
     INVOICEPLANE_INSTALL_DIR=/var/www/invoiceplane \
     INVOICEPLANE_DATA_DIR=/var/lib/invoiceplane \
@@ -12,13 +12,13 @@ ENV INVOICEPLANE_BUILD_DIR=${INVOICEPLANE_CACHE_DIR}/build \
     INVOICEPLANE_RUNTIME_DIR=${INVOICEPLANE_CACHE_DIR}/runtime
 
 RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y wget sudo unzip \
-      php${PHP_VERSION}-fpm php${PHP_VERSION}-cli php${PHP_VERSION}-mysql \
-      php${PHP_VERSION}-gd php${PHP_VERSION}-json php${PHP_VERSION}-mbstring \
-      php${PHP_VERSION}-recode php${PHP_VERSION}-xmlrpc \
-      mysql-client nginx gettext-base git \
- && sed -i 's/^listen = .*/listen = 0.0.0.0:9000/' /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf \
- && rm -rf /var/lib/apt/lists/*
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y wget sudo unzip \
+    php${PHP_VERSION}-fpm php${PHP_VERSION}-cli php${PHP_VERSION}-mysql \
+    php${PHP_VERSION}-gd php${PHP_VERSION}-json php${PHP_VERSION}-mbstring \
+    php${PHP_VERSION}-recode php${PHP_VERSION}-xmlrpc \
+    mysql-client nginx gettext-base git \
+    && sed -i 's/^listen = .*/listen = 0.0.0.0:9000/' /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY assets/build/ ${INVOICEPLANE_BUILD_DIR}/
 
